@@ -1,10 +1,16 @@
 package com.knoldus.dao.components
 
+import scala.concurrent.Future
+
 import com.knoldus.dao.connection.{ DBComponent, MySqlDbComponent }
 import com.knoldus.models.Item
 import slick.jdbc.MySQLProfile.api._
 
 trait ItemComponent extends ItemTable with DBComponent {
+
+  def insert(item: Item): Future[Int] = {
+    db.run(itemQuery += item)
+  }
 
 }
 
@@ -14,7 +20,7 @@ trait ItemTable {
 
   class ItemTable(tag: Tag) extends Table[Item](tag, "item_detail") {
 
-    def itemId = column[Int]("item_id", O.PrimaryKey)
+    def itemId = column[Int]("item_id", O.PrimaryKey, O.AutoInc)
     def itemName = column[String]("item_name")
     def price = column[Double]("price")
 

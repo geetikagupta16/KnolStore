@@ -2,6 +2,7 @@ lazy val akkaHttpVersion = "10.1.1"
 lazy val akkaVersion    = "2.5.12"
 
 val slickVersion = "3.2.1"
+val googleInjectVersion = "3.0"
 
 lazy val root = (project in file(".")).
   settings(
@@ -20,6 +21,7 @@ lazy val root = (project in file(".")).
       "com.typesafe.akka" %% "akka-http-testkit"    % akkaHttpVersion % Test,
       "com.typesafe.akka" %% "akka-testkit"         % akkaVersion     % Test,
       "com.typesafe.akka" %% "akka-stream-testkit"  % akkaVersion     % Test,
-      "org.scalatest"     %% "scalatest"            % "3.0.1"         % Test
+      "org.scalatest"     %% "scalatest"            % "3.0.1"         % Test,
+      "com.google.inject" % "guice"                 % googleInjectVersion
     )
   )
