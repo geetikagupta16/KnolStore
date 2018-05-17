@@ -12,6 +12,10 @@ trait ItemComponent extends ItemTable with DBComponent {
     db.run(itemQuery += item)
   }
 
+  def getAllItems: Future[List[Item]] = {
+    db.run(itemQuery.to[List].result)
+  }
+
 }
 
 object ItemComponent extends ItemComponent with MySqlDbComponent

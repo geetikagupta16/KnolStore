@@ -1,9 +1,15 @@
 package com.knoldus.dao.components
-import com.knoldus.dao.connection.{ DBComponent, MySqlDbComponent }
+import com.knoldus.dao.connection.{DBComponent, MySqlDbComponent}
 import com.knoldus.models.Employee
 import slick.jdbc.MySQLProfile.api._
 
+import scala.concurrent.Future
+
 trait EmployeeDetailComponent extends EmployeeTable with DBComponent {
+
+  def getAllEmployee: Future[List[Employee]] = {
+    db.run(employeeQuery.to[List].result)
+  }
 
 }
 
