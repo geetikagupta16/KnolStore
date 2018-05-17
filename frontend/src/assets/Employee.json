@@ -1,0 +1,15 @@
+
+
+{
+  "data": {
+    "employee":
+    {
+      "employeeId": 1,
+      "employeeName": "amit"
+    }
+  },
+  "status": 201
+}
+
+
+

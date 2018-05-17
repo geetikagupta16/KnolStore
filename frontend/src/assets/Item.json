@@ -1,0 +1,17 @@
+{
+  "data": {
+    "items": [
+      {
+        "itemId": 1,
+        "itemName": "maggi",
+        "itemPrice": 30
+      },
+      {
+        "itemId": 2,
+        "itemName": "burger",
+        "itemPrice": 30
+      }
+    ]
+  },
+  "status": 201
+}
