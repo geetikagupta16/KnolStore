@@ -32,7 +32,7 @@ export class AdditemComponent implements OnInit {
     };
     this.addedItem.push(itemToBeAdded);
     console.log(this.addedItem)
-    this.addItemService.postItemInformation(this.addedItem).subscribe(data =>{
+    this.addItemService.postItemInformation(itemToBeAdded).subscribe(data =>{
         console.log(data)
         alert("Item added to the inventory");
         this.addedItem = [];

@@ -16,11 +16,11 @@ export class AdditemService {
 
   constructor(private appService: EmployeeService,private http:HttpClient) { }
 
-    postItemInformation(productInformation: AddItem[]):Observable<any> {
+    postItemInformation(productInformation: AddItem):Observable<any> {
     console.log(productInformation)
 
       let postUrl = `${this.appService.akkaBaseUrl}addItem`;
 
-    return this.http.post<AddItem[]>(postUrl, productInformation, httpOptions);
+    return this.http.post<AddItem>(postUrl, productInformation, httpOptions);
   }
 }
