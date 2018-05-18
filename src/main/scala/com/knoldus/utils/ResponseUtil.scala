@@ -1,8 +1,8 @@
 package com.knoldus.utils
 
-object ResponseUtil {
+import com.knoldus.models.EmployeeTransaction
 
-  case class EmployeeTransaction(empId: Int, itemId: Int, date: String, quantity: Int, amount: Double, isPaid: Boolean = false)
+object ResponseUtil {
 
   case class ItemJson(itemId: Int, itemName: String, price: Double, itemQuantity: Int, amount: Double)
 
