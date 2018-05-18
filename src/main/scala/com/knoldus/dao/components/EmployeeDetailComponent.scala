@@ -1,5 +1,5 @@
 package com.knoldus.dao.components
-import com.knoldus.dao.connection.{DBComponent, MySqlDbComponent}
+import com.knoldus.dao.connection.{ DBComponent, MySqlDbComponent }
 import com.knoldus.models.Employee
 import slick.jdbc.MySQLProfile.api._
 
