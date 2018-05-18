@@ -10,8 +10,8 @@ import scala.concurrent.Future
 
 trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBComponent with EmployeeDetailComponent with ItemComponent {
 
-  def addEmployeeTransaction(transaction: EmployeeTransaction): Future[Int] = {
-    db.run(employeeTransactionQuery += transaction)
+  def addEmployeeTransaction(transaction: List[EmployeeTransaction]): Future[Option[Int]] = {
+    db.run(employeeTransactionQuery ++= transaction)
   }
 
   def getEmployeeTransaction(empId: Int): Future[EmployeeTransactionDetails] = {
