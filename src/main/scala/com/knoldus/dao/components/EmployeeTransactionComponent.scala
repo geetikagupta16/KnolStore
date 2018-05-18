@@ -34,7 +34,7 @@ trait EmployeeTransactionTable {
 
     def itemId = column[Int]("item_id")
 
-    def date = column[Date]("date")
+    def date = column[Date]("transaction_date")
 
     def quantity = column[Int]("quantity")
 
