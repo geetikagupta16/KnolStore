@@ -27,7 +27,7 @@ class KnolStoreHTTPService @Inject() (itemComponent: ItemComponent) extends Json
       post {
         entity(as[Item]) { itemData =>
           complete {
-            itemComponent.insert(itemData)
+            itemComponent.addItem(itemData)
             itemData /*.map { result => HttpResponse(status = StatusCodes.Created.intValue, entity = HttpEntity(entity = SuccessResponse("Record Added successfully !!")))*/
           } /*.recover {
               case NonFatal(exception) => HttpResponse(status = StatusCodes.InternalServerError.intValue, entity = HttpEntity(ContentTypes.`application/json`, ErrorResponse("Could not get record from database", StatusCodes.InternalServerError.intValue)))
