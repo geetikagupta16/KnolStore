@@ -1,4 +1,3 @@
-
 export interface EmployeeDetails {
   employeeId: number;
   employeeName: string;
@@ -19,6 +18,6 @@ export interface ErrorDetails {
   errorMsg: string;
 }
 
-export interface Employee{
+export interface Employee {
   employee: EmployeeDetails[];
 }

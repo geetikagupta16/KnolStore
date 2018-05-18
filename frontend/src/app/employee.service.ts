@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {ItemData} from "./Item";
+
 import {Observable} from "rxjs/Observable";
-import {EmployeeData} from "./EmployeeDetails";
+import {EmployeeData} from "./employee/EmployeeDetails";
+import {ItemData} from "./employee/Item";
+
 
 @Injectable()
 export class EmployeeService {
