@@ -10,6 +10,7 @@ import {ItemData} from "./Item";
 
 @Injectable()
 export class EmployeeService {
+  akkaBaseUrl = 'http://localhost:8080/';
 
   constructor(private http: HttpClient) { }
 

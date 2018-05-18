@@ -9,6 +9,9 @@ import {HttpClientModule} from "@angular/common/http";
 import { BillComponent } from './bill/bill.component';
 import {EmployeeService} from "./employee.service";
 import { ItemManagementComponent } from './item-management/item-management.component';
+import { AdditemComponent } from './item-management/additem/additem.component';
+import {FormsModule} from "@angular/forms";
+import {AdditemService} from "./item-management/additem/additem.service";
 
 
 @NgModule({
@@ -16,12 +19,29 @@ import { ItemManagementComponent } from './item-management/item-management.compo
     AppComponent,
     EmployeeComponent,
     BillComponent,
-    ItemManagementComponent
+    ItemManagementComponent,
+    AdditemComponent
   ],
   imports: [
-    BrowserModule,HttpClientModule,RouterModule.forRoot([{path:'buyproduct',component:EmployeeComponent}])
+    BrowserModule,FormsModule,HttpClientModule,RouterModule.forRoot(
+      [
+        {path:'buyproduct',
+          component:EmployeeComponent
+        },
+        {
+          path :'items-management',
+          component: ItemManagementComponent,
+          children: [
+            {
+              path: 'add-item',
+              component: AdditemComponent
+            }
+          ]
+        }
+        ]
+    )
   ],
-  providers: [EmployeeService],
+  providers: [EmployeeService,AdditemService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
