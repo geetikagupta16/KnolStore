@@ -140,7 +140,7 @@ class KnolStoreHTTPService @Inject()(
       path("approveTransaction" / IntNumber) { empId =>
         complete {
           employeeTransactionComponent.approveEmployeeTransaction(empId).map {
-            _ => Response("transactions approved successfully", StatusCodes.Created.intValue)
+            _ => Response("Transactions approved successfully", StatusCodes.Created.intValue)
           }
         }
       }
