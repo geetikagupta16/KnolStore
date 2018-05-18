@@ -16,13 +16,13 @@ export class EmployeeService {
 
   getEmployeee(): Observable<EmployeeData> {
     //let getUrl = `${this.appService.akkaBaseUrl}getEmployee`
-    let getUrl ='/assets/Item.json'
+    let getUrl ='/assets/Employee.json'
     return this.http.get<EmployeeData>(getUrl);
   }
 
   getItem(): Observable<ItemData> {
     //let getUrl = `${this.appService.akkaBaseUrl}getItem`
-    let getUrl = '/assets/Employee.json'
+    let getUrl = '/assets/Item.json'
     return this.http.get<ItemData>(getUrl);
   }
 }

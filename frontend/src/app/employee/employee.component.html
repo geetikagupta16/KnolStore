@@ -1,18 +1,65 @@
-<!--<div class="row">-->
-  <!--<div class="col-md-2"></div>-->
-  <!--<div class="col-md-8">-->
-  <!--<div class="inputBox" [class.focus]="project.value != ''">-->
-  <!--<select name="project" #project="ngModel" class="input"-->
-          <!--[(ngModel)]="index" required-->
-          <!--(change)="values==true">-->
+<div class="container-fluid">
+  <div class="container">
+    <form #buyProduct="ngForm">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 align="center">BUY YOUR PRODUCT</h1>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+          <div clas="row">
+            <div class="row col-md-12">
+              <div class="inputBox" [class.focus]="employee.value != ''">
+                <label class="inputText">Select Employee</label>
+                <hr>
+                <select name="employee" #employee=ngModel class="input"
+                        [(ngModel)]="index" [disabled]="employeeInfo.length <= 0"
+                        [class.disabled]="employeeInfo.length <= 0" required>
+                  <option disabled *ngIf="employeeInfo.length <= 0">No employee available</option>
+                  <option *ngFor="let emp of employeeInfo" [value]="employee">{{emp.employeeId}}-{{emp.employeeName}}
+                  </option>
+                </select>
+              </div>
+              <div [hidden]="employee.valid || employee.pristine || employee.touched " class="err-msg">
+                Please select a employee
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-bordered items-menu">
+                <thead>
+                <tr>
+                  <th class="col-md-2">Select</th>
+                  <th class="col-md-1">Sno</th>
+                  <th class="col-md-3">Item Name</th>
+                  <th class="col-md-2">Price</th>
+                  <th class="col-md-2">Quantity</th>
+                  <th class="col-md-2">Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor = "let product of itemInfo">
+                  <td><input type="checkbox"></td>
+                  <td>{{product.itemId}}</td>
+                  <td>{{product.itemName}}</td>
+                  <td>{{product.itemPrice}}</td>
+                  <td><input type="number" min="1" max="10" #quantity ="ngModel" name="quantity" [(ngModel)] = "quantityValue"></td>
+                  <td><input type="text" placeholder="{{product.itemPrice * quantityValue}}" readonly></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  </form>
+</div>
+</div>
 
-    <!--<option disabled *ngIf="employee.length <= 0">No employee available-->
-    <!--</option>-->
-    <!--<option *ngFor="let emp of employee; let i = index" [value]="i">-->
-      <!--{{emp.employeeId}}-->
-    <!--</option>-->
-  <!--</select>-->
-<!--</div></div>-->
-  <!--<div class="col-md-2"></div>-->
-<!--</div>-->
+
 

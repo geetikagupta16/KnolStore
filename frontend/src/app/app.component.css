@@ -44,9 +44,9 @@
 }
 
 #header{
-  background-color: indianred;
+  background-image: url("/assets/header1.jpg");
   width:100%;
-  height:90px;
+  height:160px;
   text-align: center;
 }
 

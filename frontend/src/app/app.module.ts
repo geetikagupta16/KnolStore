@@ -35,6 +35,10 @@ import {AdditemService} from "./item-management/additem/additem.service";
             {
               path: 'add-item',
               component: AdditemComponent
+            },
+            {
+              path: 'update-item',
+              component: AdditemComponent
             }
           ]
         }
