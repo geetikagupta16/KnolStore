@@ -16,7 +16,7 @@ trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBCompo
     db.run(employeeTransactionQuery ++= transaction)
   }
 
-  def getEmployeeTransaction(empId: Int): Future[EmployeeTransactionDetails] = {
+  def getEmployeeTransaction(empId: Int): Future[Option[EmployeeTransactionDetails]] = {
 
     db.run(employeeTransactionQuery.filter(empTransaction => empTransaction.empId === empId && !empTransaction.isPaid)
       .join(employeeQuery).on((EmployeeTransaction, Employee) => EmployeeTransaction.empId === Employee.empId)
@@ -28,7 +28,7 @@ trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBCompo
             val listOfBill = list.map(bill => BillDetails(bill._2.itemName, bill._1._1.date.toString, bill._1._1.quantity, bill._2.price, bill._1._1.amount))
             val totalAmount = listOfBill.map(_.amount).sum
             EmployeeTransactionDetails(id, list.map(_._1._2.empName).head, totalAmount, listOfBill)
-        }.toList.head
+        }.toList.headOption
       }
   }
 

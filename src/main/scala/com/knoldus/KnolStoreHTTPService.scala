@@ -3,7 +3,8 @@ package com.knoldus
 import java.sql.Date
 import java.text.SimpleDateFormat
 
-import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.marshalling.EmptyValue
+import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.MethodDirectives.get
@@ -16,6 +17,7 @@ import com.knoldus.utils.JsonSupport
 import com.knoldus.utils.ResponseUtil._
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 class KnolStoreHTTPService @Inject()(
@@ -29,7 +31,7 @@ class KnolStoreHTTPService @Inject()(
         addItem ~ getItems ~ updateItems
       } ~
       pathPrefix("employee") {
-        getEmployees
+        getEmployees ~ approveTransaction
       }
     } ~ employeeTransactions ~ saveEmployeeTransaction()
 
@@ -38,7 +40,10 @@ class KnolStoreHTTPService @Inject()(
       get {
         path("transactionDetails" / IntNumber) { id =>
           complete {
-            employeeTransactionComponent.getEmployeeTransaction(id)
+            employeeTransactionComponent.getEmployeeTransaction(id).map {
+              case Some(record) => record
+              case None => EmployeeTransactionDetails(-1, "", -1, List())
+            }
           }
         }
       }
@@ -135,6 +140,16 @@ class KnolStoreHTTPService @Inject()(
       }
     }
 
+  def approveTransaction: Route =
+    get {
+      path("approveTransaction" / IntNumber) { empId =>
+        complete {
+          employeeTransactionComponent.approveEmployeeTransaction(empId).map {
+            _ => Response("Transactions approved successfully", StatusCodes.Created.intValue)
+          }
+        }
+      }
+    }
 
 }
 
