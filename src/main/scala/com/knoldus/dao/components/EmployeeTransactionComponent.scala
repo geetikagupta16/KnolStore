@@ -5,17 +5,33 @@ import java.sql.Date
 import com.knoldus.dao.connection.{DBComponent, MySqlDbComponent}
 import com.knoldus.models.EmployeeTransaction
 import slick.jdbc.MySQLProfile.api._
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBComponent {
+case class EmployeeTransactionDetails(employeeId: Int, employeeName: String, totalAmount: Double, billDetails: List[BillDetails])
+
+case class BillDetails(itemName: String, date: Date, quantity: Int, price: Double, amount: Double)
+
+trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBComponent with EmployeeDetailComponent with ItemComponent {
 
   def addEmployeeTransaction(transaction: EmployeeTransaction): Future[Int] = {
     db.run(employeeTransactionQuery += transaction)
   }
 
-  def getEmployeeTransaction(empId: Int): Future[List[EmployeeTransaction]] = {
-    db.run(employeeTransactionQuery.filter(_.empId === empId).to[List].result)
+  def getEmployeeTransaction(empId: Int): Future[EmployeeTransactionDetails] = {
+
+    db.run(employeeTransactionQuery.filter(_.empId === empId)
+      .join(employeeQuery).on((EmployeeTransaction, Employee) => EmployeeTransaction.empId === Employee.empId)
+      .join(itemQuery).on((EmployeeTransaction, Item) => EmployeeTransaction._1.itemId === Item.itemId).to[List].result)
+      .map { record =>
+        record.groupBy(_._1._2.empId).map {
+          innerRecord =>
+            val (id, list) = innerRecord
+            val listOfBill = list.map(x => BillDetails(x._2.itemName, x._1._1.date, x._1._1.quantity, x._2.price, x._1._1.amount))
+            val totalAmount = listOfBill.map(_.amount).sum
+            EmployeeTransactionDetails(id, list.map(_._1._2.empName).head, totalAmount, listOfBill)
+        }.toList.head
+      }
   }
 
 }
@@ -43,5 +59,6 @@ trait EmployeeTransactionTable {
     def isPaid = column[Boolean]("is_paid")
 
   }
+
 }
 
