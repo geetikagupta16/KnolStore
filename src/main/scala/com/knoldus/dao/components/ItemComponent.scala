@@ -16,8 +16,8 @@ trait ItemComponent extends ItemTable with DBComponent {
     db.run(itemQuery += item)
   }
 
-  def deleteItem(itemId: Int): Future[Int] = {
-    db.run(itemQuery.filter(_.itemId === itemId).delete)
+  def updateItem(itemId: Int, item: Item): Future[Int] = {
+    db.run(itemQuery.filter(_.itemId === itemId).update(item))
   }
 
 }
