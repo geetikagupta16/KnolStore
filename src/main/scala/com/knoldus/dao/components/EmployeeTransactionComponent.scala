@@ -3,16 +3,12 @@ package com.knoldus.dao.components
 import java.sql.Date
 
 import com.knoldus.dao.connection.{DBComponent, MySqlDbComponent}
-import com.knoldus.models.EmployeeTransaction
+import com.knoldus.utils.ResponseUtil._
 import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class EmployeeTransactionDetails(employeeId: Int, employeeName: String, totalAmount: Double, billDetails: List[BillDetails])
-
-case class BillDetails(itemName: String, date: Date, quantity: Int, price: Double, amount: Double)
-
-trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBComponent with EmployeeDetailComponent with ItemComponent {
+trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBComponent {
 
   def addEmployeeTransaction(transaction: EmployeeTransaction): Future[Int] = {
     db.run(employeeTransactionQuery += transaction)
@@ -50,7 +46,7 @@ trait EmployeeTransactionTable {
 
     def itemId = column[Int]("item_id")
 
-    def date = column[Date]("transaction_date")
+    def date = column[String]("transaction_date")
 
     def quantity = column[Int]("quantity")
 
