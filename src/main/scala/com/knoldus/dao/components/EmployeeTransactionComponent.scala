@@ -16,7 +16,7 @@ trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBCompo
 
   def getEmployeeTransaction(empId: Int): Future[EmployeeTransactionDetails] = {
 
-    db.run(employeeTransactionQuery.filter(_.empId === empId)
+    db.run(employeeTransactionQuery.filter(x => x.empId === empId && !x.isPaid)
       .join(employeeQuery).on((EmployeeTransaction, Employee) => EmployeeTransaction.empId === Employee.empId)
       .join(itemQuery).on((EmployeeTransaction, Item) => EmployeeTransaction._1.itemId === Item.itemId).to[List].result)
       .map { record =>
