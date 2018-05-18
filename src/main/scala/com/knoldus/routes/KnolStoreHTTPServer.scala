@@ -8,7 +8,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import com.knoldus.KnolStoreHTTPService
-import com.knoldus.dao.components.{EmployeeTransactionComponent, ItemComponent}
+import com.knoldus.dao.components.{ EmployeeTransactionComponent, ItemComponent }
 
 //#main-class
 object KnolStoreHTTPServer extends App {

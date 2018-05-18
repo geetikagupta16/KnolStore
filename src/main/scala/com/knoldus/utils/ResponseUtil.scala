@@ -16,4 +16,5 @@ object ResponseUtil {
 
   case class BillDetails(itemName: String, date: String, quantity: Int, price: Double, amount: Double)
 
+  case class Response(message: String, status: Int)
 }
