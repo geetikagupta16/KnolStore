@@ -16,9 +16,9 @@
                 <hr>
                 <select name="employee" #employee=ngModel class="input"
                         [(ngModel)]="index" [disabled]="employeeInfo.length <= 0"
-                        [class.disabled]="employeeInfo.length <= 0" required>
+                        [class.disabled]="employeeInfo.length <= 0" required (change)="showTable= true">
                   <option disabled *ngIf="employeeInfo.length <= 0">No employee available</option>
-                  <option *ngFor="let emp of employeeInfo" [value]="employee">{{emp.employeeId}}-{{emp.employeeName}}
+                  <option *ngFor="let emp of employeeInfo; let i = index" [value]="i">{{emp.employeeId}}-{{emp.employeeName}}
                   </option>
                 </select>
               </div>
@@ -28,9 +28,10 @@
             </div>
           </div>
         </div>
-        <div class="col-md-9">
+        <div *ngIf ="showTable" class="col-md-9">
           <div class="row">
             <div class="col-md-12">
+              <form #buyForm="ngForm" (submit)="postItemInfo()">
               <table class="table table-bordered items-menu">
                 <thead>
                 <tr>
@@ -43,16 +44,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor = "let product of itemInfo">
-                  <td><input type="checkbox"></td>
+                <tr *ngFor = "let product of itemInfo; let i = index">
+                  <td><input type="checkbox" #answer="ngModel" name="answer" [(ngModel)]="arr[i]"></td>
                   <td>{{product.itemId}}</td>
                   <td>{{product.itemName}}</td>
                   <td>{{product.itemPrice}}</td>
-                  <td><input type="number" min="1" max="10" #quantity ="ngModel" name="quantity" [(ngModel)] = "quantityValue"></td>
-                  <td><input type="text" placeholder="{{product.itemPrice * quantityValue}}" readonly></td>
+                  <td><input type="number" min="1" max="10" [name]="'screenshot' + i" [(ngModel)] = "quantity[i]" ></td>
+                  <td><input type="text" value="{{product.itemPrice * quantity[i]}}" readonly #amount="ngModel" name="amount" [(ngModel)] ="amountValue"></td>
                 </tr>
+                <tr>
+                  <td>Your total is  {{calculateTotal()}}
+                </tr>
+
                 </tbody>
               </table>
+                <button class="btn btn-success col-md-2" type="submit">Buy</button>
+              </form>
+
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@
   <div class="col-md-4"></div>
   <div class="col-md-4">
    <h3> Add an Item </h3>
-    <form  #addForm="ngForm" class="form-horizontal" (submit)="postItem()">
+    <form  #addForm="ngForm" class="form-horizontal" (submit)="postItem();addForm.reset()">
       <div class="form-group">
         <label>Item Name:</label>
         <input type="text" class="form-control"  #itemValue="ngModel" name="itemValue"required [(ngModel)]="a.itemName">

@@ -12,6 +12,7 @@ import { ItemManagementComponent } from './item-management/item-management.compo
 import { AdditemComponent } from './item-management/additem/additem.component';
 import {FormsModule} from "@angular/forms";
 import {AdditemService} from "./item-management/additem/additem.service";
+import {DatePipe} from "@angular/common";
 
 
 @NgModule({
@@ -45,7 +46,7 @@ import {AdditemService} from "./item-management/additem/additem.service";
         ]
     )
   ],
-  providers: [EmployeeService,AdditemService],
+  providers: [EmployeeService,AdditemService,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

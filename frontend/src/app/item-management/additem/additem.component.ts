@@ -28,7 +28,7 @@ export class AdditemComponent implements OnInit {
     let itemToBeAdded:AddItem ={
       itemId:this.a.itemId,
       itemName:this.a.itemName,
-      price:this.a.price
+      price:parseInt(this.a.price.toLocaleString())
     };
     this.addedItem.push(itemToBeAdded);
     console.log(this.addedItem)
