@@ -29,7 +29,7 @@ class KnolStoreHTTPService @Inject()(
         addItem ~ getItems ~ updateItems
       } ~
       pathPrefix("employee") {
-        getEmployees
+        getEmployees ~ approveTransaction
       }
     } ~ employeeTransactions ~ saveEmployeeTransaction()
 
@@ -135,6 +135,16 @@ class KnolStoreHTTPService @Inject()(
       }
     }
 
+  def approveTransaction: Route =
+    get {
+      path("approveTransaction" / IntNumber) { empId =>
+        complete {
+          employeeTransactionComponent.approveEmployeeTransaction(empId).map {
+            _ => Response("transactions approved successfully", StatusCodes.Created.intValue)
+          }
+        }
+      }
+    }
 
 }
 
