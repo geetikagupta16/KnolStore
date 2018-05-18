@@ -8,10 +8,6 @@ import slick.jdbc.MySQLProfile.api._
 
 trait ItemComponent extends ItemTable with DBComponent {
 
-  def insert(item: Item): Future[Int] = {
-    db.run(itemQuery += item)
-  }
-
   def getAllItems: Future[List[Item]] = {
     db.run(itemQuery.to[List].result)
   }
