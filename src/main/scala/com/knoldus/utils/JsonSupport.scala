@@ -19,6 +19,8 @@ trait JsonSupport extends SprayJsonSupport {
   implicit val listTransaction = jsonFormat1(ListTransaction)
   implicit val repsonseJson = jsonFormat2(Response)
   implicit val itemsList = jsonFormat1(ItemsList)
+  implicit val employee = jsonFormat2(Employee)
+  implicit val employeeList = jsonFormat1(EmployeeList)
 
 }
 //#json-support

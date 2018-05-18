@@ -8,7 +8,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import com.knoldus.KnolStoreHTTPService
-import com.knoldus.dao.components.{ EmployeeTransactionComponent, ItemComponent }
+import com.knoldus.dao.components.{EmployeeDetailComponent, EmployeeTransactionComponent, ItemComponent}
 
 //#main-class
 object KnolStoreHTTPServer extends App {
@@ -19,7 +19,7 @@ object KnolStoreHTTPServer extends App {
   implicit val system: ActorSystem = ActorSystem("KnolStoreHTTPServer")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  val knolStoreHTTPService = new KnolStoreHTTPService(ItemComponent, EmployeeTransactionComponent)
+  val knolStoreHTTPService = new KnolStoreHTTPService(ItemComponent, EmployeeTransactionComponent, EmployeeDetailComponent)
   //#main-class
   // from the UserRoutes trait
   lazy val routes: Route = knolStoreHTTPService.route

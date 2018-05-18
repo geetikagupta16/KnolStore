@@ -10,8 +10,8 @@ import akka.http.scaladsl.server.directives.MethodDirectives.get
 import akka.http.scaladsl.server.directives.RouteDirectives.complete
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 import com.google.inject.Inject
-import com.knoldus.dao.components.{EmployeeTransactionComponent, ItemComponent}
-import com.knoldus.models.{EmployeeTransaction, Item, ItemsList}
+import com.knoldus.dao.components.{EmployeeDetailComponent, EmployeeTransactionComponent, ItemComponent}
+import com.knoldus.models.{EmployeeList, EmployeeTransaction, Item, ItemsList}
 import com.knoldus.utils.JsonSupport
 import com.knoldus.utils.ResponseUtil._
 
@@ -20,12 +20,16 @@ import scala.util.control.NonFatal
 
 class KnolStoreHTTPService @Inject()(
                                       itemComponent: ItemComponent,
-                                      employeeTransactionComponent: EmployeeTransactionComponent) extends JsonSupport {
+                                      employeeTransactionComponent: EmployeeTransactionComponent,
+                                      employeeComponent: EmployeeDetailComponent) extends JsonSupport {
 
   lazy val route: Route =
     cors() {
       pathPrefix("item") {
         addItem ~ getItems ~ updateItems
+      } ~
+      pathPrefix("employee") {
+        getEmployees
       }
     } ~ employeeTransactions ~ saveEmployeeTransaction()
 
@@ -118,6 +122,17 @@ class KnolStoreHTTPService @Inject()(
         }
       }
     }
+    }
+
+  def getEmployees: Route =
+    get {
+      path("getEmployees") {
+        complete {
+          employeeComponent.getAllEmployee.map {
+            employeeList => EmployeeList(employeeList)
+          }
+        }
+      }
     }
 
 
