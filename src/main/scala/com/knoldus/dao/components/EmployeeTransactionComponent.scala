@@ -32,6 +32,10 @@ trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBCompo
       }
   }
 
+  def approveEmployeeTransaction(empId: Int) = {
+    db.run(employeeTransactionQuery.filter(empTransaction => empTransaction.empId === empId && !empTransaction.isPaid).map(_.isPaid).update(true))
+  }
+
 }
 
 object EmployeeTransactionComponent extends EmployeeTransactionComponent with MySqlDbComponent
