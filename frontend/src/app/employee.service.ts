@@ -4,6 +4,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {EmployeeData} from "./Employee";
 import {ItemData} from "./Item";
+import {EmployeeBill} from "./employee/EmployeeBill";
 
 
 
@@ -15,14 +16,21 @@ export class EmployeeService {
   constructor(private http: HttpClient) { }
 
   getEmployeee(): Observable<EmployeeData> {
-    //let getUrl = `${this.appService.akkaBaseUrl}getEmployee`
-    let getUrl ='/assets/Employee.json'
+    `${this.appService.akkaBaseUrl}item/addItem`;
+    let getUrl =`${this.akkaBaseUrl}employee/getEmployees`
+    //let getUrl = '/assets/Employee.json'
     return this.http.get<EmployeeData>(getUrl);
   }
 
   getItem(): Observable<ItemData> {
-    //let getUrl = `${this.appService.akkaBaseUrl}getItem`
-    let getUrl = '/assets/Item.json'
+
+    let getUrl = `${this.akkaBaseUrl}/items/getItems`
+    //let getUrl = '/assets/Item.json'
     return this.http.get<ItemData>(getUrl);
+  }
+
+  postUserBill(result:EmployeeBill):Observable<EmployeeBill>{
+    let getUrl = `${this.akkaBaseUrl}saveTransaction`
+    return this.http.get<EmployeeBill>(getUrl);
   }
 }

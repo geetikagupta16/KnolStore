@@ -19,7 +19,7 @@ export class AdditemService {
     postItemInformation(productInformation: AddItem):Observable<any> {
     console.log(productInformation)
 
-      let postUrl = `${this.appService.akkaBaseUrl}addItem`;
+      let postUrl = `${this.appService.akkaBaseUrl}item/addItem`;
 
     return this.http.post<AddItem>(postUrl, productInformation, httpOptions);
   }
