@@ -12,7 +12,7 @@ object ResponseUtil {
 
   case class EmployeeTransactionDetails(empId: Int, empName: String, totalAmount: Double, bill: List[BillDetails])
 
-  case class ListTransaction(employeeTransactionDetails: List[EmployeeTransactionDetails])
+  case class ListTransaction(employeeTransactionDetails: EmployeeTransactionDetails)
 
   case class BillDetails(itemName: String, date: String, quantity: Int, price: Double, amount: Double)
 

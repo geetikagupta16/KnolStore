@@ -8,7 +8,7 @@ import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBComponent {
+trait EmployeeTransactionComponent extends EmployeeTransactionTable with DBComponent with EmployeeDetailComponent with ItemComponent {
 
   def addEmployeeTransaction(transaction: EmployeeTransaction): Future[Int] = {
     db.run(employeeTransactionQuery += transaction)

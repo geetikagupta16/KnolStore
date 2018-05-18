@@ -31,10 +31,11 @@ class KnolStoreHTTPService @Inject()(itemComponent: ItemComponent, employeeTrans
       get {
         path("transactionDetails" / IntNumber) { id =>
           complete {
-           employeeTransactionComponent.getEmployeeTransactionDetails(id).map {
-             xx => ListTransaction(xx).toJson
+           employeeTransactionComponent.getEmployeeTransaction(id).map {
+             transactionDetails => ListTransaction(transactionDetails).toJson
            }
           }
         }
       }
 }
+
