@@ -11,12 +11,12 @@ import com.google.inject.Inject
 import com.knoldus.dao.components.ItemComponent
 import com.knoldus.models.Item
 import scala.concurrent.ExecutionContext.Implicits.global
-
+import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 import com.knoldus.utils.{ ErrorResponse, JsonSupport, SuccessResponse }
 
 class KnolStoreHTTPService @Inject() (itemComponent: ItemComponent) extends JsonSupport {
 
-  lazy val route: Route =
+  lazy val route: Route = cors(){
     pathSingleSlash {
       get {
         complete {
@@ -24,7 +24,7 @@ class KnolStoreHTTPService @Inject() (itemComponent: ItemComponent) extends Json
         }
       }
     } ~ pathPrefix("addItem") {
-      post {
+      post {println("hi")
         entity(as[Item]) { itemData =>
           complete {
             itemComponent.addItem(itemData)
@@ -35,5 +35,5 @@ class KnolStoreHTTPService @Inject() (itemComponent: ItemComponent) extends Json
         }
       }
     }
-
+}
 }

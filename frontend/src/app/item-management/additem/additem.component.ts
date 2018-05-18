@@ -9,34 +9,41 @@ declare var toastr:any;
 })
 
 export class AdditemComponent implements OnInit {
+   a :AddItem = {
+     itemId:0,
+     itemName:'',
+      price:null}
 
-  constructor(public addItemService: AdditemService) { }
-
-  ngOnInit() {
-  }
-  itemidvalue:number;
-itemvalue:string;
-  itemprice: number;
   addedItem: AddItem[]=[];
 
+  constructor(public addItemService: AdditemService) { }
+  ngOnInit() {
+  }
+
   postItem(){
+   // console.log(this.abc.price, this.abc.itemName )
+   //  console.log(this.itemprice)
+   //  console.log(this.itemvalue)
+
     let itemToBeAdded:AddItem ={
-      itemId:this.itemidvalue,
-      itemName:this.itemvalue,
-      itemPrice:this.itemprice
+      itemId:this.a.itemId,
+      itemName:this.a.itemName,
+      price:this.a.price
     };
     this.addedItem.push(itemToBeAdded);
-    this.addItemService.postItem(this.addedItem).subscribe(data =>{
-      toastr.success("Item added to the inventory");
-      this.addedItem = [];
+    console.log(this.addedItem)
+    this.addItemService.postItemInformation(this.addedItem).subscribe(data =>{
+        console.log(data)
+        alert("Item added to the inventory");
+        this.addedItem = [];
 
-    },
-      error => toastr.warning("Something Went Wrong"))
-
-    }
-
+      },
+      error => alert("Something Went Wrong"))
 
   }
+
+
+}
 
 
 
