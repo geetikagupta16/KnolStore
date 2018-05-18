@@ -1,18 +1,18 @@
-<div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
-  <div class="inputBox" [class.focus]="project.value != ''">
-  <select name="project" #project="ngModel" class="input"
-          [(ngModel)]="index" required
-          (change)="values==true">
+<!--<div class="row">-->
+  <!--<div class="col-md-2"></div>-->
+  <!--<div class="col-md-8">-->
+  <!--<div class="inputBox" [class.focus]="project.value != ''">-->
+  <!--<select name="project" #project="ngModel" class="input"-->
+          <!--[(ngModel)]="index" required-->
+          <!--(change)="values==true">-->
 
-    <option disabled *ngIf="employee.length <= 0">No employee available
-    </option>
-    <option *ngFor="let emp of employee; let i = index" [value]="i">
-      {{emp.employeeId}}
-    </option>
-  </select>
-</div></div>
-  <div class="col-md-2"></div>
-</div>
+    <!--<option disabled *ngIf="employee.length <= 0">No employee available-->
+    <!--</option>-->
+    <!--<option *ngFor="let emp of employee; let i = index" [value]="i">-->
+      <!--{{emp.employeeId}}-->
+    <!--</option>-->
+  <!--</select>-->
+<!--</div></div>-->
+  <!--<div class="col-md-2"></div>-->
+<!--</div>-->
 
