@@ -3,13 +3,12 @@ package com.knoldus.routes
 //#quick-start-server
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
-
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import com.knoldus.KnolStoreHTTPService
-import com.knoldus.dao.components.ItemComponent
+import com.knoldus.dao.components.{EmployeeTransactionComponent, ItemComponent}
 
 //#main-class
 object KnolStoreHTTPServer extends App {
@@ -20,7 +19,7 @@ object KnolStoreHTTPServer extends App {
   implicit val system: ActorSystem = ActorSystem("KnolStoreHTTPServer")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  val knolStoreHTTPService = new KnolStoreHTTPService(ItemComponent)
+  val knolStoreHTTPService = new KnolStoreHTTPService(ItemComponent, EmployeeTransactionComponent)
   //#main-class
   // from the UserRoutes trait
   lazy val routes: Route = knolStoreHTTPService.route
