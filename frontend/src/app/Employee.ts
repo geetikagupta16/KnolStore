@@ -1,8 +1,11 @@
 export interface EmployeeDetails {
-  employeeId: number;
-  employeeName: string;
+  empId: number;
+  empName: string;
 }
-
+export interface Employee{
+  employees:EmployeeDetails[];
+}
+/*
 export interface EmployeeData {
   data: Employee;
   status: number;
@@ -19,5 +22,5 @@ export interface ErrorDetails {
 }
 
 export interface Employee {
-  employee: EmployeeDetails[];
-}
+  employees: EmployeeDetails[];
+}*/

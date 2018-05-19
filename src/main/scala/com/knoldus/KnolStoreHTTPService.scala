@@ -1,39 +1,155 @@
 package com.knoldus
 
-import scala.util.control.NonFatal
+import java.sql.Date
+import java.text.SimpleDateFormat
 
-import akka.http.scaladsl.model.{ ContentTypes, HttpEntity, HttpResponse, StatusCodes }
+import akka.http.scaladsl.marshalling.EmptyValue
+import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.MethodDirectives.get
 import akka.http.scaladsl.server.directives.RouteDirectives.complete
-import com.google.inject.Inject
-import com.knoldus.dao.components.ItemComponent
-import com.knoldus.models.Item
-import scala.concurrent.ExecutionContext.Implicits.global
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
-import com.knoldus.utils.{ ErrorResponse, JsonSupport, SuccessResponse }
+import com.google.inject.Inject
+import com.knoldus.dao.components.{EmployeeDetailComponent, EmployeeTransactionComponent, ItemComponent}
+import com.knoldus.models.{EmployeeList, EmployeeTransaction, Item, ItemsList}
+import com.knoldus.utils.JsonSupport
+import com.knoldus.utils.ResponseUtil._
 
-class KnolStoreHTTPService @Inject() (itemComponent: ItemComponent) extends JsonSupport {
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 
-  lazy val route: Route = cors(){
-    pathSingleSlash {
-      get {
-        complete {
-          "Hello world"
-        }
+class KnolStoreHTTPService @Inject()(
+                                      itemComponent: ItemComponent,
+                                      employeeTransactionComponent: EmployeeTransactionComponent,
+                                      employeeComponent: EmployeeDetailComponent) extends JsonSupport {
+
+  lazy val route: Route =
+    cors() {
+      pathPrefix("item") {
+        addItem ~ getItems ~ updateItems
+      } ~
+      pathPrefix("employee") {
+        getEmployees ~ approveTransaction
       }
-    } ~ pathPrefix("addItem") {
-      post {println("hi")
-        entity(as[Item]) { itemData =>
+    } ~ employeeTransactions ~ saveEmployeeTransaction()
+
+  def employeeTransactions: Route =
+    cors() {
+      get {
+        path("transactionDetails" / IntNumber) { id =>
           complete {
-            itemComponent.addItem(itemData)
-            itemData /*.map { result => HttpResponse(status = StatusCodes.Created.intValue, entity = HttpEntity(entity = SuccessResponse("Record Added successfully !!")))*/
-          } /*.recover {
-              case NonFatal(exception) => HttpResponse(status = StatusCodes.InternalServerError.intValue, entity = HttpEntity(ContentTypes.`application/json`, ErrorResponse("Could not get record from database", StatusCodes.InternalServerError.intValue)))
-            }*/
+            employeeTransactionComponent.getEmployeeTransaction(id).map {
+              case Some(record) => record
+              case None => EmployeeTransactionDetails(-1, "", -1, List())
+            }
+          }
         }
       }
     }
+
+  def saveEmployeeTransaction(): Route = cors() {
+    pathPrefix("saveTransaction") {
+      post {
+        entity(as[EmployeeTransactionJson]) { employeeTransactionData =>
+          complete {
+            val format: SimpleDateFormat = new SimpleDateFormat("dd-MM-yyyy")
+            val empTransactions: List[EmployeeTransaction] = employeeTransactionData
+              .itemsPurchased
+              .map { itemPurchased =>
+                EmployeeTransaction(
+                  employeeTransactionData.empId,
+                  itemPurchased.itemId,
+                  new Date(format.parse(employeeTransactionData.transactionDate).getTime),
+                  itemPurchased.itemQuantity,
+                  itemPurchased.amount)
+              }
+            employeeTransactionComponent.addEmployeeTransaction(empTransactions).map { response =>
+              Response(
+                "Transaction for employee has been saved successfully !!",
+                StatusCodes.InternalServerError.intValue)
+            }.recover {
+              case NonFatal(exception) =>
+                exception.printStackTrace()
+                Response(
+                  "Could not store data in database",
+                  StatusCodes.InternalServerError.intValue)
+            }
+          }
+        }
+      }
+    }
+  }
+
+  def addItem: Route =
+    post {
+      entity(as[Item]) { itemData =>
+        complete {
+          itemComponent.addItem(itemData)
+            .map { result =>
+              Response(
+                "Record Added successfully !!",
+                StatusCodes.InternalServerError.intValue)
+            }.recover {
+            case NonFatal(exception) =>
+              exception.printStackTrace()
+              Response(
+                "Could not get record from database",
+                StatusCodes.InternalServerError.intValue)
+          }
+        }
+      }
+    }
+
+  def getItems: Route =
+    get {
+      path("getItems") {
+        complete {
+          itemComponent.getAllItems.map {
+            itemsList => ItemsList(itemsList)
+          }
+        }
+      }
+    }
+
+  def updateItems: Route =
+    pathPrefix("updateItem" / IntNumber) { id => {
+      put {
+        entity(as[Item]) { item => {
+          complete {
+            itemComponent.updateItem(id, item).map {
+              case _ => Response("item updated successfully", StatusCodes.Created.intValue)
+            }
+          }
+        }
+
+        }
+      }
+    }
+    }
+
+  def getEmployees: Route =
+    get {
+      path("getEmployees") {
+        complete {
+          employeeComponent.getAllEmployee.map {
+            employeeList => EmployeeList(employeeList)
+          }
+        }
+      }
+    }
+
+  def approveTransaction: Route =
+    get {
+      path("approveTransaction" / IntNumber) { empId =>
+        complete {
+          employeeTransactionComponent.approveEmployeeTransaction(empId).map {
+            _ => Response("Transactions approved successfully", StatusCodes.Created.intValue)
+          }
+        }
+      }
+    }
+
 }
-}
+

@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 import {Observable} from "rxjs/Observable";
-import {EmployeeData} from "./Employee";
-import {ItemData} from "./Item";
+
 import {EmployeeBill} from "./employee/EmployeeBill";
+import {Item, ItemDetails} from "./Item";
+import {Employee} from "./bill/EmployeeTransaction";
 
 
 
@@ -15,18 +16,18 @@ export class EmployeeService {
 
   constructor(private http: HttpClient) { }
 
-  getEmployeee(): Observable<EmployeeData> {
-    `${this.appService.akkaBaseUrl}item/addItem`;
+  getEmployeee(): Observable<Employee[]> {
+    //`${this.appService.akkaBaseUrl}item/addItem`;
     let getUrl =`${this.akkaBaseUrl}employee/getEmployees`
     //let getUrl = '/assets/Employee.json'
-    return this.http.get<EmployeeData>(getUrl);
+    return this.http.get<Employee[]>(getUrl);
   }
 
-  getItem(): Observable<ItemData> {
+  getItem(): Observable<ItemDetails[]> {
 
-    let getUrl = `${this.akkaBaseUrl}/items/getItems`
+    let getUrl = `${this.akkaBaseUrl}item/getItems`
     //let getUrl = '/assets/Item.json'
-    return this.http.get<ItemData>(getUrl);
+    return this.http.get<ItemDetails[]>(getUrl);
   }
 
   postUserBill(result:EmployeeBill):Observable<EmployeeBill>{
