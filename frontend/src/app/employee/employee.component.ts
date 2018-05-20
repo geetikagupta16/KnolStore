@@ -90,10 +90,9 @@ abc(){
 
      let employeeTransaction: EmployeeBill = {
       empId:this.selectedemployeeId[this.index].empId,
+       itemsPurchased:itemToBePurchased,
        transactionDate:this.datepipe.transform(new Date(), 'yyyy-MM-dd'),
-       total:100,
-       itemsPurchased:itemToBePurchased
-
+       total:100
     };
      console.log(employeeTransaction)
 

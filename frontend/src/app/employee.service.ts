@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
 
 import {Observable} from "rxjs/Observable";
 
@@ -8,13 +8,20 @@ import {Item, ItemDetails} from "./Item";
 import {Employee} from "./bill/EmployeeTransaction";
 
 
-
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'my-auth-token'
+  })
+};
 
 @Injectable()
 export class EmployeeService {
   akkaBaseUrl = 'http://localhost:8080/';
 
   constructor(private http: HttpClient) { }
+
+
 
   getEmployeee(): Observable<Employee[]> {
     //`${this.appService.akkaBaseUrl}item/addItem`;
@@ -30,8 +37,13 @@ export class EmployeeService {
     return this.http.get<ItemDetails[]>(getUrl);
   }
 
-  postUserBill(result:EmployeeBill):Observable<EmployeeBill>{
-    let getUrl = `${this.akkaBaseUrl}saveTransaction`
-    return this.http.get<EmployeeBill>(getUrl);
+  postUserBill(result:EmployeeBill):Observable<any>{
+    let getUrl = `${this.akkaBaseUrl}saveTransaction`;
+    return this.http.post<EmployeeBill>(getUrl,result,httpOptions);
   }
+
+  // getUserBill(id: number): Observable<> {
+  //   let getUrl = `${this.akkaBaseUrl}transactionDetails/${id}`;
+  //   return this.http.get<>(getUrl);
+  // }
 }

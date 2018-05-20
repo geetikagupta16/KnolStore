@@ -1,8 +1,8 @@
 export class EmployeeBill{
   empId: number;
+  itemsPurchased: ItemPurchased[];
   transactionDate:string;
   total:number;
-  itemsPurchased: ItemPurchased[];
   constructor(){}
 }
 export class ItemPurchased{
