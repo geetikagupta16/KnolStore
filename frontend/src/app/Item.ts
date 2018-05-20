@@ -1,9 +1,12 @@
 export interface Item {
   itemId: number;
   itemName: string;
-  itemPrice: number;
+  price: number;
 }
-
+export interface ItemDetails {
+  items:Item[];
+}
+/*
 export interface ItemData {
   data: ItemDetails;
   status: number;
@@ -22,3 +25,4 @@ export interface ErrorDetails {
 export interface ItemDetails{
   items: Item[];
 }
+*/
